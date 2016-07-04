@@ -1,4 +1,10 @@
 defmodule DarianCalendar do
+    @moduledoc """
+    
+    Module for converting an UTC terrestrian date into the fictional Darian Calendar
+    proposed for the civilian use of a future Mars colony by Thomas Gangale.
+
+    """
 
     defmodule Date do
         defstruct   year: 0,
@@ -40,6 +46,14 @@ defmodule DarianCalendar do
         martiana:  ["Sol Solis", "Sol Lunae", "Sol Martis", "Sol Mercurii", "Sol Jovis", "Sol Veneris", "Sol Saturni"]
     }
 
+    @spec sols_from_earth(DateTime) :: number
+    @doc """
+    Convert the Terrestrian UTC date and time in the number of Sols since the define epoch.
+
+    ## Parameters
+
+        - `date`: The date returned by `DateTime`.
+    """
     def sols_from_earth(date) do
         unix = DateTime.to_unix(date)
         offset = @unix_epoch - @epoch_offset
@@ -49,6 +63,16 @@ defmodule DarianCalendar do
         days / @mars_to_earth_days        
     end
 
+    @doc """
+    Return the current Darian Year and the current sols in the year.
+
+    ## Parameters:
+
+        - `date`: The date returned by `DateTime`.
+
+    Returned a tuple `{year, sols}`.
+    """
+    @spec darian_year(DateTime) :: {integer, number}
     def darian_year(date) do
         sols = sols_from_earth(date)
         # sD = Num of 500 years cycles
@@ -101,6 +125,16 @@ defmodule DarianCalendar do
         {year, doI}
     end
 
+    @doc """
+    Convert the given date into a Darian Date.
+
+    ## Parameters
+
+        - `date`: The date returned by `DateTime`.
+    
+    Returns a `DarianCalendar.Date` struct with the converted date and time.
+    """
+    @spec darian_date(DateTime) :: DarianCalendar.Date 
     def darian_date(date) do 
         {year, sols} = darian_year(date)
         season = cond do 
@@ -132,6 +166,15 @@ defmodule DarianCalendar do
             sec: round(sec)}
     end
 
+    @doc """
+    Convert a `DarianCalendar.Date` struct into a human readable string.
+
+    ## Parameters
+
+        - `d_date`: The `DarianCalendar.Date` struct.
+        - `name_type`: Specify which nomenclature we want to use.
+    """
+    @spec to_string(DarianCalendar.Date) :: String.t
     def to_string(d_date, name_type \\ :defrost) do
         {:ok, month_name} = Enum.fetch(@month_names[name_type], d_date.month - 1)
         {:ok, sol_name} = Enum.fetch(@sol_names[name_type], d_date.week_sol - 1)
