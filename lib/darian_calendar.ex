@@ -123,12 +123,19 @@ defmodule DarianCalendar do
         min = Float.floor(full_min)
         sec = Float.floor((full_min - Float.floor(full_min))*60)
         %DarianCalendar.Date{
-            year: year, 
-            month: month,
-            sol: sol,
-            week_sol: week_sol,
-            hour: hour,
-            min: min,
-            sec: sec}
+            year: round(year), 
+            month: round(month),
+            sol: round(sol),
+            week_sol: round(week_sol),
+            hour: round(hour),
+            min: round(min),
+            sec: round(sec)}
     end
+
+    def to_string(d_date, name_type \\ :defrost) do
+        {:ok, month_name} = Enum.fetch(@month_names[name_type], d_date.month - 1)
+        {:ok, sol_name} = Enum.fetch(@sol_names[name_type], d_date.week_sol - 1)
+        "#{sol_name} #{d_date.sol} #{month_name} #{d_date.year} @ #{d_date.hour}:#{d_date.min}:#{d_date.sec}"
+    end
+
 end
