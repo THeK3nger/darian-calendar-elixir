@@ -1,10 +1,10 @@
 # DarianCalendar
 
-This Elixir package convert a terrestrial UTC date and time into the [Darian Calendar][1] date and time, a fictional civilian calendar proposed by Thomas Gangale.
+This Elixir package converts a terrestrial UTC date and time into the corresponding [Darian Calendar][1] date and time, a _fictional civilian calendar_ proposed by Thomas Gangale.
 
-Actually the computation start from 11th March 1609, the so called **telescopic era**.
+Actually, computation starts from 11th March 1609; the so called **telescopic era**.
 
-This is just a fun project to become familiar with Elixir syntax. :) It is also the only Darian Calendar implementation that actually explain the meaning of all the involved magic numbers! :D
+This is just a fun project to become familiar with Elixir syntax. :) It is also the only Darian Calendar implementation that explains the meaning of every involved magic numbers! :D
 
 ![Mars Gif](mars.gif)<sup>1</sup>
 
